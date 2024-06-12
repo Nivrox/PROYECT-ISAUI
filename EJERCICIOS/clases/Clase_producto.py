@@ -3,11 +3,11 @@ class Producto:
         self.nombre_prod = nombre_prod
         self.cantidad = cantidad
         self.precio = precio
-    def getnombreProd(self):
+    def getNombreProd(self):
         return self.nombre_prod
-    def getcantidad(self):
+    def getCantidad(self):
         return self.cantidad
-    def getprecio(self):
+    def getPrecio(self):
         return self.precio
   
     def mostrarInfoProducto(self):
