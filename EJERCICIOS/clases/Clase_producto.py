@@ -16,7 +16,7 @@ class Producto:
   #Creamos una instancia para conocer la informacion del producto 
    
     def mostrarInfoProducto(self):
-        print ("\n el producto ingresado fue: " str(self.nombre_prod) + "\n cantidad: ", str(self.cantidad) + 
+        print ("\n el producto ingresado fue: ", str(self.nombre_prod) + "\n cantidad: ", str(self.cantidad) + 
             "\n precio: ", str(self.precio))
         return self.nombre_prod, self.cantidad, self.precio
 
