@@ -34,7 +34,7 @@ usuario = input ("Ingresa el nombre de la persona : ")
 while True:
     try:
 
-            usuario.lower() == "julian" and "sofi" and "mateo" and "juan": 
+        if usuario.lower() == "julian" and "sofi" and "mateo" and "juan": 
             print (sacar_promedios(usuario))
             break
     except ValueError:
