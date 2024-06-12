@@ -25,7 +25,8 @@ class Vehiculo: #crear nuestra CLASE PADRE
     
     #metodo para mostrar la info del objeto en consola 
     def mostrarInfoVehiculo(self):
-         print ("\n Los datos ingresados son: " + "\n" "\n Patente: "+ str(self.getPatente()))
+         print ("\n Los datos ingresados son: " + "\n" "\n Patente: "+ str(self.getPatente())
+                +"\n marca: ", str(self.marca) + "\n año: ", str(self.anio) + "\n color: ", str(self.color))
         
        #agregar el resto de los get que hemos creado según los atributos tiene nuestro objeto vehiculo
 
@@ -38,5 +39,5 @@ color = input("Ingresame el color: ")
 
     #solicitar el resto de atributos
 
-e= Vehiculo(patente, marca , anio, color) #añadir todos los parametros que espera mi metodo(funcion)
+e= Vehiculo( marca , anio, patente, color) #añadir todos los parametros que espera mi metodo(funcion)
 e.mostrarInfoVehiculo()

@@ -1,0 +1,27 @@
+class Electronico:
+    def __init__(self, nombre, marca, modelo, cantidad):
+        self.marca = marca
+        self.modelo = modelo
+        self.nombre = nombre
+        self.cantidad = cantidad
+
+    def mostrarInfoProductoElectronico(self):
+        print(f"Nombre: {self.nombre}\nMarca: {self.marca}\nModelo: {self.modelo}\nCantidad: {self.cantidad}")
+
+class Televisor(Electronico):
+    def __init__(self, nombre, marca, modelo, cantidad, tamaño, resolucion):
+        # Llamar al constructor de la clase base
+        super().__init__(nombre, marca, modelo, cantidad)
+        self.tamaño = tamaño
+        self.resolucion = resolucion
+
+    def mostrarInfoProductoElectronico(self):
+        # Llamar al método de la clase base
+        super().mostrarInfoProductoElectronico()
+        print(f"Tamaño: {self.tamaño}\nResolución: {self.resolucion}")
+
+# Crear una instancia de la clase Televisor
+televisor = Televisor("Televisor", "LG", "OLED55CXPUA", 5, "55 pulgadas", "4K")
+
+# Mostrar la información del televisor
+televisor.mostrarInfoProductoElectronico() 
