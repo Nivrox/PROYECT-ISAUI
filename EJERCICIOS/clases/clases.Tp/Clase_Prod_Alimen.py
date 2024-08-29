@@ -17,7 +17,7 @@ class Producto:
     def getPrecio(self):
     
         return self.precio
-
+    #creamos una instancia para mostrar la informacion de los productos ingresados
     def mostrarInfoProducto(self):
         print ("\n el producto ingresado fue: ", str(self.nombre_prod) + "\n cantidad: ", str(self.cantidad) + 
             "\n precio: ", str(self.precio))
