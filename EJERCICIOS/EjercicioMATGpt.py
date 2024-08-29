@@ -1,4 +1,5 @@
 import math
+
 def calcular_mediana(lista):
     # Ordenar los lista
     cantidad_lista = 0
@@ -75,35 +76,44 @@ def calcular_frecuencia_absoluta(lista):
             frecuencias[valor] += 1
         else:
             frecuencias[valor] = 1
+
 def calcular_frecuencia_relativa(lista):
     frecuencias_absolutas = calcular_frecuencia_absoluta(lista)
     total_elementos = len(lista)
     frecuencias_relativas = {valor: frecuencia / total_elementos for valor, frecuencia in frecuencias_absolutas.items()}
     return frecuencias_relativas
+
 def calcular_frecuencia_absoluta_acumulada(lista):
     frecuencias_absolutas = calcular_frecuencia_absoluta(lista)
     # Ordenar los datos dentro de la lista por clave (valor)
     valores_ordenados = sorted(frecuencias_absolutas.keys())
     frecuencias_acumuladas = {}
     acumulador = 0
+
     for valor in valores_ordenados:
         acumulador += frecuencias_absolutas[valor]
         frecuencias_acumuladas[valor] = acumulador
     return frecuencias_acumuladas
+
 def calcular_frecuencia_relativa_acumulada(lista):
     frecuencias_relativas = calcular_frecuencia_relativa(lista)
     valores_ordenados = sorted(frecuencias_relativas.keys())
     frecuencias_acumuladas = {}
     acumulador = 0
+
     for valor in valores_ordenados:
         acumulador += frecuencias_relativas[valor]
         frecuencias_acumuladas[valor] = acumulador
+
     return frecuencias_acumuladas
+
 def calcular_porcentaje(lista):
     frecuencias_absolutas = calcular_frecuencia_absoluta(lista)
     total_elementos = len(lista)
     porcentajes = {valor: (frecuencia / total_elementos) * 100 for valor, frecuencia in frecuencias_absolutas.items()}
+
     return porcentajes
+
 def calcular_porcentaje_acumulado(lista):
     porcentajes = calcular_porcentaje(lista)
     valores_ordenados = sorted(porcentajes.keys())
@@ -113,6 +123,7 @@ def calcular_porcentaje_acumulado(lista):
         acumulador += porcentajes[valor]
         porcentajes_acumulados[valor] = acumulador
     return porcentajes_acumulados
+
 def calcular_desviacion_absoluta_y_estandar(lista):
     media = calcular_media(lista)
 
@@ -120,9 +131,12 @@ def calcular_desviacion_absoluta_y_estandar(lista):
     print("Desviación absoluta:", desviacion_absoluta)
     desviacion_estandar = math.sqrt(sum(map(lambda x: (x - sum(lista)/len(lista))**2, lista)) / len(lista))
     print("Desviación estándar:", desviacion_estandar)
+    
     return desviacion_absoluta, desviacion_estandar
+
 while True:
-    try :
+
+    try:
         
         dato = input("Ingresa números separados por coma: ")
         dato_str = dato.split(',')

@@ -36,8 +36,7 @@ patente = input("Ingrese la Patente: ")
 marca = input("Ingresame la marca: ")
 anio = input("Ingresame el anio: ")
 color = input("Ingresame el color: ")
-
-    #solicitar el resto de atributos
+   #solicitar el resto de atributos
 
 e= Vehiculo( marca , anio, patente, color) #añadir todos los parametros que espera mi metodo(funcion)
 e.mostrarInfoVehiculo()
