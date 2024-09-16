@@ -8,7 +8,7 @@ def factoriales_iterativo (n):
     for i in range (1, n + 1):
         resultado *= i 
     return resultado
-print ("Que onda soy una calculadora de factoriales amio ")
+print ("Que onda soy una calculadora de factoriales amio")
 
 dato = input ("Ingresa tu numero a calcular : ") 
 if dato.isdigit():

@@ -64,23 +64,7 @@ def calcular_frecuencia_absoluta(lista):
 
     print ("Esta es tu frecuencia absoluta",frecuencias)
     return frecuencias 
-def calcular_cuartiles(lista):
-    lista_ordenada = sorted(lista)
-    n = len(lista_ordenada)
-    
-    Q2 = (lista_ordenada[n // 2 - 1] + lista_ordenada[n // 2]) / 2 if n % 2 == 0 else lista_ordenada[n // 2]
-    
-    mitad = n // 2
-    Q1 = (lista_ordenada[mitad // 2 - 1] + lista_ordenada[mitad // 2]) / 2 if mitad % 2 == 0 else lista_ordenada[mitad // 2]
-    
-    if n % 2 == 0:
-        Q3 = (lista_ordenada[mitad + mitad // 2 - 1] + lista_ordenada[mitad + mitad // 2]) / 2 if mitad % 2 == 0 else lista_ordenada[mitad + mitad // 2]
-    else:
-        Q3 = (lista_ordenada[mitad + 1 + mitad // 2 - 1] + lista_ordenada[mitad + 1 + mitad // 2]) / 2 if (mitad + 1) % 2 == 0 else lista_ordenada[mitad + 1 + mitad // 2]
-    
-    
-    print ("Q1 vale:",Q1,", Q2 vale:",Q2,"Q3 vale: ",Q3)
-    return Q1, Q2, Q3
+
 
 while True:
     try :
@@ -194,6 +178,7 @@ while True:
             calcular_cuartiles(numeros)
             calcular_minimo_mayor(numeros)
             calcular_cuartiles(numeros)
+            break
         if usuario.lower() == "volver":
            break
         else:
