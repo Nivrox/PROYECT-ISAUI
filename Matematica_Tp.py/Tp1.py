@@ -1,75 +1,80 @@
-import math
-from math import sqrt    
+import math   
 from collections import Counter
-from scipy.stats import kurtosis
-
-
-
+from scipy.integrate import quad
 
 def calcular_mediana(lista):
-    # Ordenar los lista
-    lista_ordenada = sorted(lista)
+    
     cantidad_lista = 0
-    for numero in lista_ordenada:
+    for numero in lista:
         if numero >= 0 or numero <= 0:
-            cantidad_lista = len(lista_ordenada)
+            cantidad_lista = len(lista)
         
-    # Verificar si el número de lista es par o impar
+    # Verifica si el número de lista es par o impar
     if cantidad_lista % 2 == 0:
         # Si es par, la mediana es el promedio de los dos valores del medio
-        mediana = (lista_ordenada[cantidad_lista//2 - 1] + lista_ordenada[cantidad_lista // 2]) / 2
+        mediana = (lista[cantidad_lista//2 - 1] + lista[cantidad_lista // 2]) / 2
     else:
         # Si es impar, la mediana es el valor del medio
-        mediana = lista_ordenada[cantidad_lista//2]
-    print(f"Esta es la mediana de tu lista : {mediana}")
-    print(f"Estos son los datos ingresados: {lista_ordenada}")
+        mediana = lista[cantidad_lista//2]
+    
+    print(f"Estos son los datos ingresados: {lista}")
     return mediana
 
 def calcular_moda(lista):
-    # Creamos un diccionario para contar la frecuencia de cada elemento
+    # Crea un diccionario para contar la frecuencia de cada elemento
     frecuencia = {}
+    lista = sorted(lista)
     for elemento in lista:
         if elemento in frecuencia:
             frecuencia[elemento] += 1 #le suma un valor de frecuencia al elemento encontrado si este ya fue encontrado antes
         else:
             frecuencia[elemento] = 1 #de lo contrario lo agrega y lo inicializa en cero
  
-    # Encontramos el valor con la frecuencia más alta
+    # Encuentra el valor con la frecuencia más alta
     moda = max(frecuencia.values())
+    
     
     # Creamos una lista para almacenar los elementos con la frecuencia más alta
     moda_resultado = []
     for key, value in frecuencia.items():
         if value == moda:
             moda_resultado.append(key)
-    print ("esta es la moda de tus datos: ", moda_resultado)
+
+    if moda == 1:
+        print ("No hay una moda en estos datos")
+        print (f"{moda_resultado}")
+    else:
+        print (f"esta es la moda de tus datos: {moda_resultado}")
 
     return moda_resultado  
  
 def calcular_media (lista):
 
-    media = sum(lista) / len(lista)
+    #calcula la media y redondea su promedio
+    media = round(sum(lista) / len(lista), 4)
 
-    print("La media es: ", media)
+    
     return media
 
 def calcular_desviacion_estandar(lista): # como poblacion
-    # Calcular la media
-    media = sum (lista) / len(lista)
+    # Calcula la media
+
+    media = int(sum (lista) / len(lista))
     
-    # Sumar el cuadrado de las diferencias con respecto a la media
+    # Suma el cuadrado de las diferencias con respecto a la media
     suma_cuadrados = sum((x - media) ** 2 for x in lista)
     
-    # Dividir entre el número de lista y calcular la raíz cuadrada
-    desviacion_estandar = math.sqrt(suma_cuadrados / len(lista))
+    # Divide entre el número de lista y calcular la raíz cuadrada
+    desviacion_estandar = round(math.sqrt(suma_cuadrados / len(lista)), 2)
 
-    print (f"Tu desviacion estandar es: {desviacion_estandar}")
+    
 
     return desviacion_estandar
  
 def calcular_menor_mayor (lista):
-    numeroMayor = lista [0]
-    numeroMenor = lista [0]
+    
+    numeroMayor = lista[0]
+    numeroMenor = lista[0]
     for numero in lista:
         if numero > numeroMayor:
             numeroMayor = numero
@@ -80,77 +85,88 @@ def calcular_menor_mayor (lista):
     return numeroMenor,numeroMayor
 
 def calcular_frecuencia_absoluta(lista):
+    #Crea un diccionario de frecuencia para ubicar cada valor de frecuencia en la lista
     frecuencias = {}
     for valor in lista:
         if valor in frecuencias:
-            frecuencias[valor] += 1
+            frecuencias[valor] += 1 #le suma un valor de frecuencia al numero si ese numero ya existe en el diccionario
         else:
-            frecuencias[valor] = 1
-
-    print ("Esta es tu frecuencia absoluta",frecuencias)
+            frecuencias[valor] = 1 # de lo contrario lo inicializa en 1 
     return frecuencias 
 
 def calcular_frecuencia_relativa(lista):
+    
     total =  len(lista)
     frec_abs = calcular_frecuencia_absoluta(lista)
     frecuencia_rel = {}
     for clave, valor in frec_abs.items():
-        frecuencia_rel[clave] = round(valor / total, 4)
+        frecuencia_rel[clave] = round(valor / total, 2)
     
-    print("Esta es la frecuencia relativa de tus datos", frecuencia_rel)
+    
     return frecuencia_rel
 
 def calcular_varianza(lista):
-    # Calcular la media
-    media = sum(lista) / len(lista)
+    # Calcula la media
+    media = int(sum(lista) / len(lista))
+    # Suma el cuadrado de las diferencias con respecto a la media
+    suma_cuadrados = round(sum((x - media) ** 2 for x in lista), 9)
     
-    # Sumar el cuadrado de las diferencias con respecto a la media
-    suma_cuadrados = sum((x - media) ** 2 for x in lista)
-    
-    # Dividir entre el número de lista
-    varianza = round(suma_cuadrados / len(lista), 4)
-    print (f"Esta es la varianza de tus datos: {varianza}")
+    # Divide entre el número de datos que contiene la lista
+    varianza = round(suma_cuadrados / len(lista), 2)
+    print (f"Esta es la varianza de tus datos: {varianza:.2f}")
     return varianza
 
 def calcular_frecuencia_porcentual(lista):
     # Crea un diccionario para contar la frecuencia absoluta de cada valor
-    frecuencia_absoluta = calcular_frecuencia_absoluta(lista)
+    frecuencia_absoluta = calcular_frecuencia_relativa(lista)
     total_datos = len(lista)
-    frecuencia_porcentual = {k: (v / total_datos) * 100 for k, v in frecuencia_absoluta.items()}
-    print (f"Esta es la frecuencia porcentual de tus datos {frecuencia_porcentual}")
+    frecuencia_porcentual = {}
+    for k, v in frecuencia_absoluta.items():
+        frecuencia_porcentual [k] = round((v / total_datos) * 100, 2)
+
     return frecuencia_porcentual
 
 def calcular_frecuencia_absoluta_acum(lista):
-    frecuencia_absoluta = Counter(sorted(lista))
+    frecuencia_absoluta = Counter(lista)
     acumulador = 0
     frecuencia_acum = {}
     for valor, frecuencia in frecuencia_absoluta.items():
         acumulador += frecuencia
         frecuencia_acum[valor] = acumulador
-        return frecuencia_acum
+    
+    print(f"Esta es tu frecuencia absoluta acumulada: {frecuencia_acum:}")
+    return frecuencia_acum
 
 def frecuencia_relativa_acum(lista):
-    frecuencia_relativa = calcular_frecuencia_relativa(sorted(lista))
+    frecuencia_relativa = calcular_frecuencia_relativa(lista)
     acumulador = 0
     frecuenciarela_acum = {}
     for valor, frecuencia in frecuencia_relativa.items():
         acumulador += frecuencia
-        frecuenciarela_acum[valor] = round(acumulador, 4)
+        frecuenciarela_acum[valor] = round(acumulador, 2)
     print(f"Esta es tu frecuencia relativa acumulada: {frecuenciarela_acum}")
     return frecuenciarela_acum
 
 def calcular_frecuencia_porcentual_acum(lista):
-    frecuencia_porcentual = calcular_frecuencia_porcentual(sorted(lista))
+    frecuencia_porcentual = calcular_frecuencia_porcentual(lista)
     acumulador = 0 
     frecuencia_porcentual_acum = {}
     for valor, frecuencia in frecuencia_porcentual.items():
         acumulador += frecuencia
-        frecuencia_porcentual_acum[valor] = f"{round(acumulador, 4)}%"
+        frecuencia_porcentual_acum[valor] = f"{round(acumulador, 2)}%"
+    print (f"Esta es tu frecuencia porcentual acumulada: {frecuencia_porcentual_acum}")
     return frecuencia_porcentual_acum
 
 def calcular_coeficiente_curtosis(lista):
 
-    coeficiente_curtosis = kurtosis(lista)
+    n = len(lista)  
+    media = calcular_media(lista)
+    desviacion = calcular_desviacion_estandar(lista)
+        
+    suma_cuarta_potencia = sum((x - media) ** 4 for x in lista)
+
+    coeficiente_curtosis = (n * (n + 1) * suma_cuarta_potencia) / ((n - 1) * (n - 2) * (n - 3) * (desviacion ** 4)) \
+               - (3 * (n - 1) ** 2) / ((n - 2) * (n - 3))
     
     
     if coeficiente_curtosis == 0:
@@ -168,7 +184,7 @@ def calcular_coeficiente_curtosis(lista):
 
 
 import math
-from math import comb, exp, factorial, sqrt, pi
+from math import comb, factorial, pi
 
 # Distribución Binomial
 def distribucion_binomial(n, k, p):
@@ -188,38 +204,45 @@ def distribucion_poisson (k, lam):
     #param lam: Tasa promedio de exitos (lambda).
     #return: Probabilidad de obtener exactamente k eventos.
     
-    probabilidad = (lam**k * exp(-lam)) / factorial(k)
+    probabilidad = (lam**k * math.e ** (-lam)) / factorial(k)
     return probabilidad
 
 # Distribución Hipergeométrica
-def distribucion_hipergeometrica (N, K, n, k):
+def distribucion_hipergeometrica (N, K, n, x):
      
         # Calcula la probabilidad de una distribución hipergeométrica.
     
         #para N: Tamaño de la población.
         #para K: Número total de éxitos en la población.
         #para n: Tamaño de la muestra.
-        #para k: Número de éxitos en la muestra.
+        #para x: Número de éxitos en la muestra.
         #return: Probabilidad de obtener exactamente k éxitos.
     
-    probabilidad = (comb(K, k) * comb(N - K, n - k)) / comb(N, n)
+    probabilidad = (comb(K, x) * comb(N - K, n - x)) / comb(N, n)
     return probabilidad
 
 # Distribución Gaussiana (Normal)
 def distribucion_normal (x, mu, sigma):
     
-    # Calcula la función de densidad de probabilidad de una distribución normal.
+    coeficiente = 1 / (2 * math.pi * (sigma ** 2)) ** 0.5
+    exponente = -((x - mu) ** 2) / (2 * sigma ** 2)
+    densidad = coeficiente * math.exp(exponente)
+    return densidad
 
-    probabilidad = (1 / (sigma * sqrt(2 * pi))) * exp(-0.5 * ((x - mu) / sigma) ** 2)
-    return probabilidad
+def calcular_integral(mu, sigma, primer_parametro, segundo_parametro):
+    if primer_parametro > segundo_parametro:
+        raise ValueError("El primer parámetro de integración debe ser menor o igual que el segundo")
+    integral, error = quad(distribucion_normal, primer_parametro, segundo_parametro, args=(mu, sigma))
+    return integral
 
 def ingresar_datos():
     while True:
         try : 
             dato = input("Ingresa números separados por coma: ")
-            dato_str = dato.split(',')
+            dato_str = dato.split(',') 
             numeros = [int(numeros)for numeros in dato_str]
-            main_estadisticas(numeros)
+            numeros_ordenados = sorted(numeros)
+            main_estadisticas(numeros_ordenados)
             break
             
         except ValueError:
@@ -255,24 +278,26 @@ def main_estadisticas(numeros):
                 continue  # Reinicia el ciclo si el input no es válido
             
             
-            if opcion == 1:
-                calcular_mediana(numeros)
+            if opcion == 15:
+                return
+            elif opcion == 1:
+                print(f"Esta es la mediana de tus datos {calcular_mediana(numeros)}")
             elif opcion == 2:
                 calcular_moda(numeros)
             elif opcion == 3:
-                calcular_media(numeros)
+                print (f"La media es {calcular_media(numeros):.2}")
             elif opcion == 4:
                 calcular_menor_mayor(numeros)
             elif opcion == 5:
                 calcular_varianza(numeros)
             elif opcion == 6:
-                calcular_desviacion_estandar(numeros)
+                print (f"Tu desviacion estandar es {calcular_desviacion_estandar(numeros)}")
             elif opcion == 7:
-                calcular_frecuencia_absoluta(numeros)
+                print (f"Esta es tu frecuencia absoluta: {calcular_frecuencia_absoluta(numeros)}")
             elif opcion == 8: 
-                calcular_frecuencia_relativa(numeros)
+                print(f"Esta es la frecuencia relativa de tus datos: {calcular_frecuencia_relativa(numeros)}")
             elif opcion == 9 :
-                calcular_frecuencia_porcentual(numeros)
+                print (f"Esta es la frecuencia porcentual de tus datos {calcular_frecuencia_porcentual(numeros)}")
             elif opcion == 10: 
                 calcular_frecuencia_absoluta_acum (numeros)
             elif opcion == 11:
@@ -295,9 +320,6 @@ def main_estadisticas(numeros):
                 frecuencia_relativa_acum(numeros)
                 calcular_frecuencia_porcentual_acum(numeros)    
                 calcular_coeficiente_curtosis(numeros)
-            elif opcion == 15:
-                return  # Salir del menú estadistico
-
             else:
                 print(f"Opción {opcion} no válida.")
         except Exception as e:
@@ -366,16 +388,30 @@ def menu_distribuciones():
                 x = float(input("Ingresa el valor a evaluar (x): "))
                 mu = float(input("Ingresa la media (mu): "))
                 sigma = float(input("Ingresa la desviación estándar (sigma): "))
-                resultado = distribucion_normal(x, mu, sigma)
-                print(f"La probabilidad gaussiana (densidad) en {x} es: {resultado:.2f}%")
-
+                if sigma <= 0:
+                    raise ValueError("La desviación estándar debe ser mayor que 0")
+                tipo_distribucion = input("¿Desea calcular la probabilidad para x menor que infinito o x mayor que infinito? (escriba menor que o mayor que): ")
+                
+                if tipo_distribucion == "menor que":
+                        resultado = calcular_integral(mu, sigma, -float('inf'), x)
+                        print(f"La probabilidad gaussiana (densidad) en {x} es: {resultado:.2f}%")
+    
+                elif tipo_distribucion == "mayor que":
+                        resultado = calcular_integral(mu, sigma, x, float('inf'))
+                        print(f"La probabilidad gaussiana (densidad) en {x} es: {resultado:.2f}%")
+                else:
+                    raise ValueError("Opción de distribución no válida.")
+            
             elif opcion == 5: 
                 return
+        
             else:
                 print("Opción no válida. Por favor, selecciona una opción entre 1 y 5.")
-
-        except ValueError():
-            print ("Dato ingresado no valido")
+        except ValueError as e:
+            print(f"Error: {e}")
+    
+        except KeyboardInterrupt:
+            print("\nSaliendo del menú de distribuciones...")
 
 if __name__ == "__main__":
     main()
