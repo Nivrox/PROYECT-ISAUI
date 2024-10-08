@@ -5,6 +5,7 @@ from ConexionBD import *
 def abrir_ventana_listado():
     root = tk.Toplevel()
     root.title("Listado de personas")
+   
 
     style = ttk.Style()
     style.configure("BigFont.TRadiobutton", font=("Helvetica", 14))
