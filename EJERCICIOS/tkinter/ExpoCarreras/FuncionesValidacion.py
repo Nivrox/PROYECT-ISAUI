@@ -35,3 +35,4 @@ def validar_campos_obligatorios(entries):
         messagebox.showerror("Error", "Todos los campos del formulario son obligatorios.")
         return False
     return True
+

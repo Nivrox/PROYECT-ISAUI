@@ -3,7 +3,7 @@ def nombre_de_cancion(entrada):
         verificacion_entrada = entrada[:3]
         canciones_guardadas = []
         try:
-            if verificacion_entrada == "Listo":
+            if verificacion_entrada.lower() == "Listo":
                 break
                         
             if verificacion_entrada.isalpha():

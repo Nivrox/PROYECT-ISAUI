@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from Viewalta import abrir_ventana_alta  # Importamos las funciones
 from Viewlistado import abrir_ventana_listado
+from Viewalta import *
 
 class App(tk.Tk):
     def __init__(self):
@@ -27,9 +28,10 @@ class App(tk.Tk):
 
 
     def salir(self):
-        if messagebox.askyesno("Confirmar", "¿Desea salir del sistema?"):
+      if messagebox.askyesno("Confirmar", "¿Desea salir del sistema?"):
             self.destroy()
 
+    
 if __name__ == "__main__":
     app = App()
     app.mainloop()
