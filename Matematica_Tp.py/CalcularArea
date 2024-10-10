@@ -1,0 +1,54 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import quad
+
+# Definir la función que deseas integrar
+def f(x):
+    return x**2  # Por ejemplo, f(x) = x^2
+
+# Solicitar al usuario los límites del intervalo y el número de rectángulos
+a = float(input("Ingrese el límite inferior del intervalo: "))
+b = float(input("Ingrese el límite superior del intervalo: "))
+n = int(input("Ingrese el número de rectángulos: "))
+
+# Calcular el ancho de cada rectángulo
+delta_x = (b - a) / n
+
+# Inicializar las sumas
+sum_inferior = 0
+sum_superior = 0
+
+# Calcular las sumas inferior y superior
+for i in range(n):
+    # Suma inferior: usar el extremo izquierdo
+    sum_inferior += f(a + i * delta_x) * delta_x
+    # Suma superior: usar el extremo derecho
+    sum_superior += f(a + (i + 1) * delta_x) * delta_x
+
+# Calcular el área real usando integración numérica
+area_real, _ = quad(f, a, b)
+
+# Crear la gráfica
+x_plot = np.linspace(a, b, 100)
+y_plot = f(x_plot)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_plot, y_plot, label='f(x) = x^2', color='blue')
+
+# Dibujar los rectángulos para la suma inferior
+for i in range(n):
+    plt.bar(a + i * delta_x, f(a + i * delta_x), width=delta_x, alpha=0.3, align='edge', color='orange', edgecolor='black')
+
+# Mostrar los resultados en la gráfica
+plt.text(a + (b - a) / 2, max(y_plot) * 0.8, 
+         f"Suma Inferior: {sum_inferior:.4f}\nSuma Superior: {sum_superior:.4f}\nÁrea Real: {area_real:.4f}", 
+         fontsize=12, ha='center', bbox=dict(facecolor='white', alpha=0.7))
+
+plt.title('Suma Inferior y Superior bajo la curva')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.xlim(a, b)
+plt.ylim(0, f(b) * 1.1)
+plt.legend()
+plt.grid(True)
+plt.show()
