@@ -142,5 +142,4 @@ def abrir_ventana_alta():
     btn_cerrar.place(x=1250, y=690)
 
     ventana.mainloop()
-if __name__ == "__main__":
-    abrir_ventana_alta()  # Solo abrir la ventana de alta
+
