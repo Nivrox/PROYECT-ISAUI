@@ -14,10 +14,10 @@ def verificar_correo(correo):
 def validar_dni(dni):
     
     if not dni.isdigit():  # Verifica si el DNI tiene solo números
-        messagebox.showerror("Error", "Solamente se aceptan dígitos")
+        messagebox.showerror("Error", "Solamente se aceptan dígitos en el dni")
         return False
     elif len(dni) < 7 or len(dni) > 8:  # Verifica que el DNI tenga 7 u 8 dígitos
-        messagebox.showerror("Error", "El número debe tener 7 u 8 dígitos")
+        messagebox.showerror("Error", "El DNI debe tener 7 u 8 dígitos")
         return   False   
     return True
 

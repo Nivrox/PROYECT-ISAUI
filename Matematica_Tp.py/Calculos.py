@@ -3,111 +3,135 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import tkinter as tk
 from tkinter import messagebox
-# Definir la función cuadrática
-def f_cuadratica(x):
-    return x**2
 
+# Función para evaluar la expresión ingresada
+def evaluar_funcion(expr, x):
+    try:
+        return eval(expr)
+    except Exception as e:
+        raise ValueError(f"Error al evaluar la función: {e}")
+
+# Función para dibujar los rectángulos
+def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real):
+    delta_x = (b - a) / n
+    x_plot = np.linspace(a, b, 100)
+    y_plot = [evaluar_funcion(funcion, x) for x in x_plot]
+
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_plot, y_plot, label=f"f(x) = {funcion}", color='blue')
+    
+
+    # Dibujar los rectángulos de la suma inferior (borde izquierdo)
+    for i in range(n):
+        x_izquierdo = a + i * delta_x
+        altura_izquierda = evaluar_funcion(funcion, x_izquierdo)
+        if altura_izquierda is not None:
+            plt.bar(x_izquierdo, altura_izquierda, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
+
+    # Dibujar los rectángulos de la suma superior (borde derecho)
+    for i in range(n):
+        x_derecho = a + (i + 1) * delta_x
+        altura_derecha = evaluar_funcion(funcion, x_derecho)
+        if altura_derecha is not None:
+            plt.bar(x_derecho - delta_x, altura_derecha, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
+
+    # Mostrar los resultados en el gráfico
+    plt.text(a + (b - a) / 2, max(y_plot) * 0.8,
+             f"Suma Inferior: {sum_inferior:.4f}\nSuma Superior: {sum_superior:.4f}\nÁrea Real: {area_real:.4f}",
+             fontsize=12, ha='center', bbox=dict(facecolor='white', alpha=0.7))
+
+    plt.title('Rectángulos de la Suma Inferior y Superior')
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+    plt.xlim(a - 4, b + 4)
+    plt.ylim(0, max(y_plot) + 3)
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
+# Función para calcular la suma inferior y superior
+def calcular_sumas_inferior_superior(a, b, n, funcion):
+    delta_x = (b - a) / n
+    sum_inferior = 0
+    sum_superior = 0
+
+    for i in range(n - 1):
+        # Borde izquierdo para suma inferior
+        x_izquierdo = a + i * delta_x
+        altura_izquierda = evaluar_funcion(funcion, x_izquierdo)
+        if altura_izquierda is not None:
+            sum_superior += altura_izquierda * delta_x
+
+        # Borde derecho para suma superior
+        x_derecho = a + (i + 1) * delta_x
+        altura_derecha = evaluar_funcion(funcion, x_derecho)
+        if altura_derecha is not None:
+            sum_inferior += altura_derecha * delta_x
+
+    return sum_inferior, sum_superior
+
+# Función que se ejecuta al presionar el botón de calcular
 def calcular_area():
     try:
-        # Obtener los valores ingresados
         a = float(entry_a.get())
         b = float(entry_b.get())
         n = int(entry_n.get())
+        funcion = entry_funcion.get()
 
         if n <= 0:
             messagebox.showerror("Error", "El número de rectángulos debe ser positivo.")
             return
 
-        # Calcular el ancho de cada rectángulo
-        delta_x = (b - a) / n
-
-        # Inicializar las sumas
-        sum_inferior = 0
-        sum_superior = 0
-
-        # Crear la gráfica
-        x_plot = np.linspace(a, b, 100)
-        y_plot = f_cuadratica(x_plot)
-
-        plt.figure(figsize=(10, 6))
-        plt.plot(x_plot, y_plot, label="f(x) = x^2", color='blue')
-
-        # Dibujar los rectángulos y colorear según las condiciones
-        for i in range(n):
-            x_izquierdo = a + i * delta_x
-            x_derecho = a + (i + 1) * delta_x
-            altura_derecha = f_cuadratica(x_derecho)
-            altura_izquierda = f_cuadratica(x_izquierdo)
-
-            # Parte inferior (debajo de la curva)
-            if altura_derecha <= altura_izquierda:
-                plt.bar(x_derecho, altura_derecha, width=-delta_x, alpha=0.3, align='edge', color='red', edgecolor='black')
-            else:
-                # Parte superior (sobre la curva)
-                plt.bar(x_derecho, altura_izquierda, width=-delta_x, alpha=0.3, align='edge', color='red', edgecolor='black')
-                # Solo la parte que sobrepasa la curva
-                plt.bar(x_derecho, altura_derecha - altura_izquierda, bottom=altura_izquierda, width=-delta_x, alpha=0.6, align='edge', color='green', edgecolor='black')
-
-            # Sumar el área de los rectángulos
-            sum_inferior += altura_izquierda * delta_x
-            sum_superior += altura_derecha * delta_x
+        # Calcular las áreas de los rectángulos
+        sum_inferior, sum_superior = calcular_sumas_inferior_superior(a, b, n, funcion)
 
         # Calcular el área real usando integración numérica
-        area_real, _ = quad(f_cuadratica, a, b)
+        area_real, _ = quad(lambda x: evaluar_funcion(funcion, x), a, b)
 
-        # Mostrar los resultados en la gráfica
-        plt.text(a + (b - a) / 2, max(y_plot) * 0.8,
-                 f"Suma Inferior: {sum_inferior:.4f}\nSuma Superior: {sum_superior:.4f}\nÁrea Real: {area_real:.4f}",
-                 fontsize=12, ha='center', bbox=dict(facecolor='white', alpha=0.7))
+        # Llamar a la función para dibujar los rectángulos y mostrar los resultados
+        dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real)
 
-        plt.title('Área bajo la curva f(x) = x^2')
-        plt.xlabel('x')
-        plt.ylabel('f(x)')
-        plt.xlim(a - 4, b + 4)
-        plt.ylim(0, max(y_plot) + 2 )
-        plt.legend()
-        plt.grid(True)
-        plt.show()
-        entry_a.delete(0, tk.END)
-        entry_b.delete(0, tk.END)
-        entry_n.delete(0, tk.END)
-
-    except ValueError:
-        messagebox.showerror("Error", "Por favor ingrese valores válidos.")
+    except ValueError as e:
+        messagebox.showerror("Error", str(e))
 
 # Crear la interfaz gráfica
 root = tk.Tk()
-root.title("Calcula la Función Cuadrática")  # Título de la ventana
+root.title("Calcula el Área")
 root.configure(bg="#8f7456")
-root.geometry("300x250")  # Tamaño ajustado
+root.geometry("300x400")
 
 # Crear un marco para las entradas
-frame = tk.Frame(root, bd=2, relief=tk.RIDGE, bg="#bdb19d", height=300, width=200)  # Ajusta la altura y anchura
+frame = tk.Frame(root, bd=2, relief=tk.RIDGE, bg="#bdb19d")
 frame.pack(padx=10, pady=10, fill='y', expand=True)
 
 # Etiquetas y campos de entrada
 label_titulo = tk.Label(frame, text="Calcula el Área", font=("Arial", 14), bg="#bdb19d")
 label_titulo.pack(pady=5)
 
-label_a = tk.Label(frame, text="Límite Inferior (a):", bg="#bdb19d")
-label_a.pack()
+label_funcion = tk.Label(frame, text="Introduce la función (ej: x**2):", bg="#bdb19d")
+label_funcion.pack()
+entry_funcion = tk.Entry(frame)
+entry_funcion.pack()
+
+label_inferior = tk.Label(frame, text="Límite Inferior (a):", bg="#bdb19d")
+label_inferior.pack()
 entry_a = tk.Entry(frame)
 entry_a.pack()
 
-label_b = tk.Label(frame, text="Límite Superior (b):", bg="#bdb19d")
-label_b.pack()
+label_superior = tk.Label(frame, text="Límite Superior (b):", bg="#bdb19d")
+label_superior.pack()
 entry_b = tk.Entry(frame)
 entry_b.pack()
 
-label_n = tk.Label(frame, text="Número de Rectángulos (n):", bg="#bdb19d")
-label_n.pack()
+label_rectangulos = tk.Label(frame, text="Número de Rectángulos (n):", bg="#bdb19d")
+label_rectangulos.pack()
 entry_n = tk.Entry(frame)
 entry_n.pack()
 
 # Botón para calcular el área
 button_calcular = tk.Button(root, text="Calcular Área", command=calcular_area)
 button_calcular.pack(pady=10)
-
 
 # Iniciar el bucle de la interfaz
 root.mainloop()

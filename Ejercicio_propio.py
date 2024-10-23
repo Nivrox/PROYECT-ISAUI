@@ -7,8 +7,8 @@ def nombre_de_cancion(entrada):
                 break
                         
             if verificacion_entrada.isalpha():
-                                    cancion = entrada
-                                    canciones_guardadas.append(cancion)  
+                    cancion = entrada
+                    canciones_guardadas.append(cancion)  
             elif verificacion_entrada.isdigit(): 
                                     raise ValueError ("Ingresa solo letras")
             elif verificacion_entrada == "Listo":
