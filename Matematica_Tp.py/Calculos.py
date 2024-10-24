@@ -3,38 +3,32 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import tkinter as tk
 from tkinter import messagebox
+import sympy as sp
 
-# Función para evaluar la expresión ingresada
-def evaluar_funcion(expr, x):
-    try:
-        return eval(expr)
-    except Exception as e:
-        raise ValueError(f"Error al evaluar la función: {e}")
+# Función para evaluar la expresión cuadrática
+def funcion_cuadratica(x, a, b, c):
+    return a * x**2 + b * x + c
 
 # Función para dibujar los rectángulos
 def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real):
     delta_x = (b - a) / n
     x_plot = np.linspace(a, b, 100)
-    y_plot = [evaluar_funcion(funcion, x) for x in x_plot]
+    y_plot = [funcion(x) for x in x_plot]  # Se evalúa la función numéricamente
 
-    
     plt.figure(figsize=(10, 6))
-    plt.plot(x_plot, y_plot, label=f"f(x) = {funcion}", color='blue')
-    
+    plt.plot(x_plot, y_plot, label=f"f(x)", color='blue')
 
     # Dibujar los rectángulos de la suma inferior (borde izquierdo)
     for i in range(n):
         x_izquierdo = a + i * delta_x
-        altura_izquierda = evaluar_funcion(funcion, x_izquierdo)
-        if altura_izquierda is not None:
-            plt.bar(x_izquierdo, altura_izquierda, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
+        altura_izquierda = funcion(x_izquierdo)
+        plt.bar(x_izquierdo, altura_izquierda, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
 
     # Dibujar los rectángulos de la suma superior (borde derecho)
     for i in range(n):
         x_derecho = a + (i + 1) * delta_x
-        altura_derecha = evaluar_funcion(funcion, x_derecho)
-        if altura_derecha is not None:
-            plt.bar(x_derecho - delta_x, altura_derecha, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
+        altura_derecha = funcion(x_derecho)
+        plt.bar(x_derecho - delta_x, altura_derecha, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
 
     # Mostrar los resultados en el gráfico
     plt.text(a + (b - a) / 2, max(y_plot) * 0.8,
@@ -44,7 +38,7 @@ def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real)
     plt.title('Rectángulos de la Suma Inferior y Superior')
     plt.xlabel('x')
     plt.ylabel('f(x)')
-    plt.xlim(a - 4, b + 4)
+    plt.xlim(a, b)
     plt.ylim(0, max(y_plot) + 3)
     plt.grid(True)
     plt.legend()
@@ -52,24 +46,29 @@ def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real)
 
 # Función para calcular la suma inferior y superior
 def calcular_sumas_inferior_superior(a, b, n, funcion):
-    delta_x = (b - a) / n
-    sum_inferior = 0
-    sum_superior = 0
+    delta_x = (b - a) / n  # Ancho de cada rectángulo
+    suma_inferior = 0
+    suma_superior = 0
 
-    for i in range(n - 1):
-        # Borde izquierdo para suma inferior
-        x_izquierdo = a + i * delta_x
-        altura_izquierda = evaluar_funcion(funcion, x_izquierdo)
-        if altura_izquierda is not None:
-            sum_superior += altura_izquierda * delta_x
+    # Dividimos el intervalo en puntos
+    x_values = np.linspace(a, b, n + 1)  # n+1 puntos para n rectángulos
 
-        # Borde derecho para suma superior
-        x_derecho = a + (i + 1) * delta_x
-        altura_derecha = evaluar_funcion(funcion, x_derecho)
-        if altura_derecha is not None:
-            sum_inferior += altura_derecha * delta_x
+    # Evaluamos la función en esos puntos
+    y_values = [funcion(x) for x in x_values]
 
-    return sum_inferior, sum_superior
+    # Calculamos la suma inferior y superior
+    for i in range(n):
+        # Alturas en los extremos del intervalo
+        altura_izquierda = y_values[i]
+        altura_derecha = y_values[i + 1]
+
+        # Suma inferior: usamos la menor de las dos alturas
+        suma_inferior += delta_x * min(altura_izquierda, altura_derecha)
+
+        # Suma superior: usamos la mayor de las dos alturas
+        suma_superior += delta_x * max(altura_izquierda, altura_derecha)
+
+    return suma_inferior, suma_superior
 
 # Función que se ejecuta al presionar el botón de calcular
 def calcular_area():
@@ -77,20 +76,25 @@ def calcular_area():
         a = float(entry_a.get())
         b = float(entry_b.get())
         n = int(entry_n.get())
-        funcion = entry_funcion.get()
+        funcion_str = entry_funcion.get()
 
         if n <= 0:
             messagebox.showerror("Error", "El número de rectángulos debe ser positivo.")
             return
 
+        # Convertir la expresión de la función a una función numérica
+        x = sp.symbols('x')
+        expresion = sp.sympify(funcion_str)
+        funcion_numerica = sp.lambdify(x, expresion)  # Convierte la función simbólica a numérica
+
         # Calcular las áreas de los rectángulos
-        sum_inferior, sum_superior = calcular_sumas_inferior_superior(a, b, n, funcion)
+        sum_inferior, sum_superior = calcular_sumas_inferior_superior(a, b, n, funcion_numerica)
 
         # Calcular el área real usando integración numérica
-        area_real, _ = quad(lambda x: evaluar_funcion(funcion, x), a, b)
+        area_real, _ = quad(funcion_numerica, a, b)
 
         # Llamar a la función para dibujar los rectángulos y mostrar los resultados
-        dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real)
+        dibujar_rectangulos(a, b, n, funcion_numerica, sum_inferior, sum_superior, area_real)
 
     except ValueError as e:
         messagebox.showerror("Error", str(e))
