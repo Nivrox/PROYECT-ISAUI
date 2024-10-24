@@ -13,7 +13,7 @@ def funcion_cuadratica(x, a, b, c):
 def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real):
     delta_x = (b - a) / n
     x_plot = np.linspace(a, b, 100)
-    y_plot = [funcion(x) for x in x_plot]  # Se evalúa la función numéricamente
+    y_plot = [funcion(x) for x in x_plot]  # Se evalúa la función numéricamente y se grafica la curva
 
     plt.figure(figsize=(10, 6))
     plt.plot(x_plot, y_plot, label=f"f(x)", color='blue')
