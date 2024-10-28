@@ -1,0 +1,51 @@
+import tkinter as tk
+from tkinter import * 
+from tkinter import ttk
+from tkinter import messagebox
+from Mostrar import *
+from ConexionBDBiblioteca import *
+
+class FormularioPrestamos:
+
+    def Formulario_prestamos():
+        try:
+            ventana = Tk()
+            ventana.geometry ("1230x300")
+            ventana.title("Gestion De Prestamos")
+
+            marco_grilla= LabelFrame(ventana, text= "Prestamos Registrados", padx=5, pady=5,)
+            marco_grilla.grid(row=0, column=0,padx=5,pady=5)
+           
+
+            grilla_prestamos= ttk.Treeview(marco_grilla,columns=( "Nombre", "apellido","Dni","Isbn","Fecha devolucion", "Estado" ),show='headings', height=5,)
+            
+            grilla_prestamos.column("#1", anchor=CENTER)
+            grilla_prestamos.heading("#1",text="Nombre")
+            
+            grilla_prestamos.column("#2", anchor=CENTER)
+            grilla_prestamos.heading("#2",text="Apellido")
+
+            grilla_prestamos.column("#3", anchor=CENTER)
+            grilla_prestamos.heading("# 3", text="DNI")
+            
+            grilla_prestamos.column("#4", anchor=CENTER)
+            grilla_prestamos.heading("# 4", text="Isbn")
+            
+            grilla_prestamos.column("#5", anchor=CENTER)
+            grilla_prestamos.heading("# 5", text="Fecha de devolucion")
+            
+            grilla_prestamos.column("#6", anchor=CENTER)
+            grilla_prestamos.heading("# 6", text="Estado")
+
+            dato_prestamo = Prestamos.mostrarPrestamos()
+            if dato_prestamo:
+                for row in dato_prestamo:
+                    grilla_prestamos.insert("", "end", values=row)
+            
+            
+            grilla_prestamos.pack()
+            ventana.mainloop()
+    
+        except ValueError as error:
+            print("Error al mostrar la interfaz, error{}".format(error))
+FormularioPrestamos.Formulario_prestamos()

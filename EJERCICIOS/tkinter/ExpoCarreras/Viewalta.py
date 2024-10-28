@@ -1,3 +1,4 @@
+
 #interfaz muestra
 from tkinter import * 
 from FuncionesValidacion import *

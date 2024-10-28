@@ -1,11 +1,11 @@
 import re
 from tkinter import messagebox
 
-#Validar correo electronico
+
 def verificar_correo(correo):
-    # Expresión regular para validar el formato del correo electrónico
+
     patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    # Comprobar si el correo cumple con el patrón
+   
     if not re.match(patron, correo):
         messagebox.showerror("Error", f"{correo} : no es una dirección de correo válida.")
         return False
@@ -13,10 +13,10 @@ def verificar_correo(correo):
     
 def validar_dni(dni):
     
-    if not dni.isdigit():  # Verifica si el DNI tiene solo números
+    if not dni.isdigit():  
         messagebox.showerror("Error", "Solamente se aceptan dígitos en el dni")
         return False
-    elif len(dni) < 7 or len(dni) > 8:  # Verifica que el DNI tenga 7 u 8 dígitos
+    elif len(dni) < 7 or len(dni) > 8:  
         messagebox.showerror("Error", "El DNI debe tener 7 u 8 dígitos")
         return   False   
     return True

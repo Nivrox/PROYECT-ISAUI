@@ -12,24 +12,25 @@ def funcion_cuadratica(x, a, b, c):
 # Función para dibujar los rectángulos
 def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real):
     delta_x = (b - a) / n
-    x_plot = np.linspace(a, b, 100)
-    y_plot = [funcion(x) for x in x_plot]  # Se evalúa la función numéricamente
+    x_plot = np.linspace(a, b, 100) #dibuja la curva en el eje x desde el limite inferior hasta el
+    #superior x_plot toma los valores desde el limite inferior al superior mediante linspace
+    y_plot = [funcion(x) for x in x_plot]  # Se evalúa la función numéricamente y se grafica la curva
 
     plt.figure(figsize=(10, 6))
     plt.plot(x_plot, y_plot, label=f"f(x)", color='blue')
 
     # Dibujar los rectángulos de la suma inferior (borde izquierdo)
     for i in range(n):
-        x_izquierdo = a + i * delta_x
+        x_izquierdo = a + i * delta_x #comienza desde el limite inferior y por cada valor de la cantidad de rectangulos (n)
         altura_izquierda = funcion(x_izquierdo)
         plt.bar(x_izquierdo, altura_izquierda, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
 
-    # Dibujar los rectángulos de la suma superior (borde derecho)
+    # Dibujar los rectángulos de la suma superior (borde derecho) 
     for i in range(n):
-        x_derecho = a + (i + 1) * delta_x
+        x_derecho = a + (i + 1) * delta_x #toma el borde derecho desde el valor i + 1 con el ancho de delta de cada rectangulo 
         altura_derecha = funcion(x_derecho)
         plt.bar(x_derecho - delta_x, altura_derecha, width=delta_x, alpha=0.3, align='edge', color='green', edgecolor='black')
-
+            #Se le resta el ancho a cada valor del borde para graficarlo desde el borde izquierdo y ir hacia la derecha   
     # Mostrar los resultados en el gráfico
     plt.text(a + (b - a) / 2, max(y_plot) * 0.8,
              f"Suma Inferior: {sum_inferior:.4f}\nSuma Superior: {sum_superior:.4f}\nÁrea Real: {area_real:.4f}",
@@ -37,9 +38,9 @@ def dibujar_rectangulos(a, b, n, funcion, sum_inferior, sum_superior, area_real)
 
     plt.title('Rectángulos de la Suma Inferior y Superior')
     plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.xlim(a, b)
-    plt.ylim(0, max(y_plot) + 3)
+    plt.ylabel(f'f(x)')
+    plt.xlim(a - 4, b + 4)
+    plt.ylim(0, max(y_plot) + 4)
     plt.grid(True)
     plt.legend()
     plt.show()
