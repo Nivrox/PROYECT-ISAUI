@@ -126,7 +126,7 @@ def ventana_gauss():
     tk.Label(marco, text="Ingrese los coeficientes y el valor de igualdad de la ecuación 2 (x2 y2 z2 i2):", bg="#bdb19d", font=('Times New Roman', 12)).pack()
     entry2 = tk.Entry(marco, validate="key", validatecommand=(validate_command, '%P'))
     entry2.pack()
-
+        
     tk.Label(marco, text="Ingrese los coeficientes y el valor de igualdad de la ecuación 3 (x3 y3 z3 i3):", bg="#bdb19d", font=('Times New Roman', 12)).pack()
     entry3 = tk.Entry(marco, validate="key", validatecommand=(validate_command, '%P'))
     entry3.pack()

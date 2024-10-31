@@ -22,7 +22,7 @@ def ventana_principal():
             if messagebox.askyesno("Confirmar", "¿Desea salir del sistema?"):
                 ventana.destroy()
         
-        btn_gauss = tk.Button(ventana, text="Ecuaciones de lineales", command=abrir_gauss, font=('Calibri', 15), bg="#ffffff", width=25)
+        btn_gauss = tk.Button(ventana, text="Ecuaciones lineales", command=abrir_gauss, font=('Calibri', 15), bg="#ffffff", width=25)
         btn_gauss.pack(pady=20)
 
         btn_area = tk.Button(ventana, text="Area bajo la curva", command= abrir_area, font=('Calibri', 15), bg="#ffffff", width=25)
