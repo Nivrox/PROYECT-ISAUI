@@ -41,11 +41,14 @@ class FormularioPrestamos:
             if dato_prestamo:
                 for row in dato_prestamo:
                     grilla_prestamos.insert("", "end", values=row)
-            
-            
+
             grilla_prestamos.pack()
+
+            
+
+        
             ventana.mainloop()
-    
+        
         except ValueError as error:
             print("Error al mostrar la interfaz, error{}".format(error))
 FormularioPrestamos.Formulario_prestamos()
