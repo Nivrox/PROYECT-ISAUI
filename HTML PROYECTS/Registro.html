@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registrar Cuenta</title>
+    <style>
+        /* Estilos para centrar el formulario */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffe4b5; 
+        }
+
+        /* Estilos para el formulario */
+        form {
+            text-align: center;
+            background-color: #f2f2f2;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilos para el título */
+        h1 {
+            color: #001f3f; /* Azul marino bonito */
+        }
+
+        /* Estilos para las etiquetas y campos de entrada */
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Estilos para el botón */
+        input[type="submit"] {
+            background-color: #28a745; /* Verde bonito */
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838; /* Verde más oscuro al pasar el ratón */
+        }
+
+        /* Estilos para el mensaje de inicio de sesión */
+        .login-message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007BFF; /* Azul del enlace */
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="RegistroServlet" method="post">
+        <h1>Registrar Cuenta</h1>
+
+        <label for="Nombre">Nombre:</label>
+        <input type="text" id="Nombre" name="Nombre" required>
+
+        <label for="Apellido">Apellido:</label>
+        <input type="text" id="Apellido" name="Apellido" required>
+
+        <label for="DNI">DNI:</label>
+        <input type="text" id="DNI" name="DNI" required>
+
+        <label for="Password">Contrasena:</label>
+        <input type="password" id="Password" name="Password" required>
+
+        <input type="submit" value="Registrar">
+
+
+        <div class="login-message" onclick="location.href='login.html'">Ya tienes una cuenta? Inicia Sesion</div>
+    </form>
+</body>
+
+</html>
