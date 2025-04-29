@@ -49,6 +49,10 @@ class FormularioPrestamos:
         
             ventana.mainloop()
         
+<<<<<<< Updated upstream
         except ValueError as error:
             print("Error al mostrar la interfaz, error{}".format(error))
+=======
+        
+>>>>>>> Stashed changes
 FormularioPrestamos.Formulario_prestamos()

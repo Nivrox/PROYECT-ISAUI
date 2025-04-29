@@ -1,0 +1,5 @@
+tkinter
+numpy
+matplotlib
+scipy
+ttkbootstrap

@@ -45,7 +45,7 @@ def resolver_sistema(A, b, determinante):
         for i, sol in enumerate(soluciones):
             print(f"x{i+1} = {sol}")
     else:
-        print("\nEl sistema es indeterminado o no tiene solución.")
+        print("\nEl sistema es indeterminado no tiene solución.")
 
 # Programa principal
 A, b = ingresar_sistema()

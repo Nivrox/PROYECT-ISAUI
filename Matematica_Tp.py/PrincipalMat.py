@@ -13,7 +13,7 @@ def ventana_principal():
 
         def abrir_gauss():
             ventana_gauss()
-
+                                        
         def abrir_area():
             ventana_area()
 

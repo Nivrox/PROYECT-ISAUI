@@ -171,14 +171,14 @@ def prestamos_interface():
 
     def obtener_fecha_prestamo1():
      # Obtener el valor de la fecha desde el DateEntry
-        fecha_prestamo_str = devolucion_entry1.get_date()
+        fecha_prestamo_str = devolucion_entry1.get()
             # Convertir la cadena en un objeto de fecha
         fecha_prestamo = datetime.strptime(fecha_prestamo_str, "%d/%m/%Y").date()
         return fecha_prestamo
     
     def obtener_fecha_prestamo2():
      # Obtener el valor de la fecha desde el DateEntry
-        fecha_prestamo_str = devolucion_entry1.get_date()
+        fecha_prestamo_str = devolucion_entry1.get()
             # Convertir la cadena en un objeto de fecha
         fecha_prestamo = datetime.strptime(fecha_prestamo_str, "%d/%m/%Y").date()
         return fecha_prestamo

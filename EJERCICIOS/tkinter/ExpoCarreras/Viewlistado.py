@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from ConexionBD import *
 
-def abrir_ventana_listado(datos):
+def abrir_ventana_listado():
     root = tk.Toplevel()
     root.title("Listado de personas")
-   
-
+    root.resizable(False, False)
+    
     style = ttk.Style()
     style.configure("BigFont.TRadiobutton", font=("Helvetica", 14))
 
@@ -28,13 +28,48 @@ def abrir_ventana_listado(datos):
     arbol.heading("carrera", text="Carrera")
 
     def mostrar_registros():
+        for row in arbol.get_children():
+            arbol.delete(row)
 
-        
-        for fila in datos:
-            arbol.insert("", "end", values = fila)
+        carrera_seleccionada = variable_de_filtro_carrera.get()
+        print("Carrera seleccionada:", carrera_seleccionada)  # Para verificar qué valor se está utilizando
 
-        arbol.pack (padx= 20 , pady = 20)
+        if carrera_seleccionada == '7':  # Si se selecciona "Todas"
+            consulta = """
+                SELECT p.apellido, p.nombre, p.dni, c.nombre 
+                FROM personas p
+                JOIN carreras c ON p.id_carreras = c.id_carreras
+            """
+            mycursor.execute(consulta)
+        else:
+            consulta = """
+                SELECT p.apellido, p.nombre, p.dni, c.nombre 
+                FROM personas p
+                JOIN carreras c ON p.id_carreras = c.id_carreras
+                WHERE p.id_carreras = %s
+            """
+            mycursor.execute(consulta, (carrera_seleccionada,))
 
+        for (apellido, nombre, dni, nombre_carrera) in mycursor:
+            arbol.insert("", "end", values=(apellido, nombre, dni, nombre_carrera))
+
+    variable_de_filtro_carrera = tk.StringVar(value='7')  # Valor por defecto para mostrar todas las carreras
+
+    carreras = {
+        1: "Software",
+        2: "Enfermería",
+        3: "Diseño de Espacios",
+        4: "Guía de Trekking",
+        5: "Guía de Turismo",
+        6: "Turismo y Hotelería",
+        7: "Todas"
+    }
+
+    for i, (id_carrera, nombre_carrera) in enumerate(carreras.items()):
+        filtro_carrera = ttk.Radiobutton(frame_superior, text=nombre_carrera, variable=variable_de_filtro_carrera, value=str(id_carrera), style="BigFont.TRadiobutton", command=mostrar_registros)
+        row = i // 3  # calcular el índice de fila
+        col = i % 3  # calcular el índice de columna
+        filtro_carrera.grid(row=row, column=col, sticky="nsew", padx=10, pady=10)  # configuración de grid
 
     btn_cerrar = tk.Button(frame_inferior, text="Cerrar", command=root.destroy, font=('Calibri', 15), bg="#F8F8FF", width=10)
     btn_cerrar.grid(row=3, column=3, rowspan=2, padx=10, pady=10, sticky="nsew")

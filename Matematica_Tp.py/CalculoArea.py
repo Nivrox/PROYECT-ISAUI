@@ -23,9 +23,9 @@ def ventana_area():
             suma_inferior += ancho * min(y_values[i], y_values[i + 1])
             suma_superior += ancho * max(y_values[i], y_values[i + 1])
         
-        error = area_real, - (suma_inferior + suma_superior) / 2
+        error = area_real - (suma_inferior + suma_superior) / 2
 
-        return suma_inferior, suma_superior, abs, error
+        return suma_inferior, suma_superior, abs, (error)
 
     def graficar_funcion (a,b,c, intervalo_inicio, intervalo_fin, num_rectangulos, texto_resultado):
         x_plot = np.linspace (intervalo_inicio,intervalo_fin)
@@ -67,7 +67,7 @@ def ventana_area():
                 a, b, c, intervalo_inicio, intervalo_fin, num_rectangulos
             )
 
-            texto_resultado = f"Suma Inferior: {suma_inferior:.4f}\nSuma Superior: {suma_superior:.4f}\nÁrea Real: {area_real:.4f}\nError: {error:.4f}"
+            texto_resultado = (f"Suma Inferior: {suma_inferior:.4f}\nSuma Superior: {suma_superior:.4f}\nÁrea Real: {area_real:.4f}\nError: {error:.4f}")
             graficar_funcion(a, b, c, intervalo_inicio, intervalo_fin, num_rectangulos, texto_resultado)
 
         except ValueError as e:

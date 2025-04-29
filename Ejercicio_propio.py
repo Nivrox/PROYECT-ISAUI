@@ -11,8 +11,6 @@ def nombre_de_cancion(entrada):
                     canciones_guardadas.append(cancion)  
             elif verificacion_entrada.isdigit(): 
                                     raise ValueError ("Ingresa solo letras")
-            elif verificacion_entrada == "Listo":
-                break
             else:
                 if verificacion_entrada == [""]:
                 
