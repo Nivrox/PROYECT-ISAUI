@@ -16,7 +16,28 @@
 <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+      .fade-in {
+        opacity: 0;
+        transform: translateY( 20px);
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      }
       
+      .fade-in.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .spacer{
+        height: 100vh;
+      }
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
@@ -39,23 +60,8 @@
     <link href="carousel.css" rel="stylesheet">
   </head>
   <body>
-    <script>
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      }, {
-        threshold: 0.1
-      });
-  
-      document.querySelectorAll('.fade-in').forEach(el => {
-        observer.observe(el);
-      });
-    </script>
+    
 <header>
-
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Inicio</a>
@@ -161,15 +167,15 @@ s
   <div class="container marketing">
 
     <!-- Three columns of text below the carousel -->
-    <div class="row" class ="fade-in">
-      <div class="col-lg-4" class="fade-in">
+    <div class="row">
+      <div class="col-lg-4">
         <img src="JANO - HOTEL [TEMA].jpeg.JPEG" alt="Foto Perfil" class="bd-placeholder-img rounded-circle" width="140" height="140">
         <h2>Jano Olmos</h2>
         <p>Jano es un artista emergente de la zona de cosquin. <br>
         Tiene un albun llamado SI PREGUNTAS POR MI <br> donde refleja un verdadero sentimiento de instrospeccion</p>
         <p><a class="btn btn-secondary" href="https://www.youtube.com/@janoo10">Mas Informacion &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4" class="fade-in">
+      <div class="col-lg-4">
         <img src="BEBY FUNES - MIENTEME [TEMA].jpeg.jpeg" alt="Foto Perfil" class="bd-placeholder-img rounded-circle" width="140" height="140">
         <h2>Beby Funes</h2>
         <p>Beby funes es un artista directo desde Cosquin. <br>
@@ -177,7 +183,7 @@ s
         Pa' Sanar Disponible en todas las plataformas digitales <br></p>
         <p><a class="btn btn-secondary" href="https://www.youtube.com/@Bebyfuness/featured" target="_blank">Mas Informacion &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4" class="fade-in">
+      <div class="col-lg-4">
         <img src="LOORENCIO.jpeg" alt="Foto Perfil" class="bd-placeholder-img rounded-circle" width="140" height="140">
 
         <h2>Looren GC</h2>
@@ -194,7 +200,7 @@ s
 
     <hr class="featurette-divider">
 
-    <div class="row featurette" class="fade-in">
+    <div class="row featurette">
       <div class="col-md-7">
         <h2 class="featurette-heading">That's My Style</h2>
         <p class="lead">Este tema habla de la realiad de cada uno como de chico aprendi a que todos 
