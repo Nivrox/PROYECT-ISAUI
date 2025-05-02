@@ -34,6 +34,29 @@ body {
   height: 32rem;
 }
 
+.fade-in {
+  opacity: 0;
+  transform: translateY( 20px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spacer{
+  height: 100vh;
+}
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+/* Responsive and fixed height styles */
+
 
 /* MARKETING CONTENT
 -------------------------------------------------- */

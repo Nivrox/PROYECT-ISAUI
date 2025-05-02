@@ -10,19 +10,13 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/carousel/">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
 <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
+      
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
@@ -45,8 +39,23 @@
     <link href="carousel.css" rel="stylesheet">
   </head>
   <body>
-    
+    <script>
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+  
+      document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+      });
+    </script>
 <header>
+
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Inicio</a>
@@ -56,13 +65,13 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="https://www.instagram.com/bruno.puch/">instagram</a>
+            <a class="nav-link active" aria-current="page" href="https://www.instagram.com/bruno.puch/"target="_blank">instagram</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="https://www.youtube.com/@BrunoPQ/featured">Youtube</a>
+            <a class="nav-link active" aria-current="page" href="https://www.youtube.com/@BrunoPQ/featured" target="_blank">Youtube</a>
           </li>
           <li class="nav-item" >
-            <a class="nav-link active" href="https://www.youtube.com/@lallamarecordsARG" style= "background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            <a class="nav-link active" aria-current="page" href="https://www.youtube.com/@lallamarecordsARG" target="_blank" style= "background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -95,7 +104,7 @@
             <h1>That's my style</h1>
             <p>Este fue mi primer lanzamiento como artista a los 14 años.<br>
             Comenzando aprendemos muchas cosas Mas que todo de la gente que nos rodea y nos enseña de la forma mas pura</p>
-            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/O8HLTVuwUhQ">Mas informacion</a></p>
+            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/O8HLTVuwUhQ" target="_blank">Video Completo</a></p>
           </div>
         </div>
       </div>
@@ -112,7 +121,7 @@
               con la excepción que este no me manipulara. <br>
               ni me hiciera perder mis valores, si con mi situacion actual estaba bien,<br>
               agradeciendo lo que nunca me falto y siempre tuve</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Mas informacion</a></p>
+            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/7U5d-xmJul8?si=9WghfcwKAMbS6hqV" target="_blank">Video Completo</a></p>
           </div>
         </div>
       </div>
@@ -128,7 +137,7 @@ s
             <p>Este fue mi ultimo lanzamiento con 1.1k de visitas en mi primer canal personal <br>
             Mi mensaje es mostrar que despues de todo lo malo siempre hay que bailarla <br>
           pelearla y lucharla a la vida y hacerse cargo de sus responsabilidades</p>
-            <p><a class="btn btn-lg btn-primary" href="https://www.youtube.com/watch?v=7U5d-xmJul8&pp=ygUUbm8gcXVpZXJvIGNhc2ggYnJ1bm8%3D">Mas informacion</a></p>
+            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/G0BzSlgZVLs?si=rY-Gup8iv9FeAfro" target="_blank">Video Completo</a></p>
           </div>
         </div>
       </div>
@@ -152,23 +161,23 @@ s
   <div class="container marketing">
 
     <!-- Three columns of text below the carousel -->
-    <div class="row">
-      <div class="col-lg-4">
+    <div class="row" class ="fade-in">
+      <div class="col-lg-4" class="fade-in">
         <img src="JANO - HOTEL [TEMA].jpeg.JPEG" alt="Foto Perfil" class="bd-placeholder-img rounded-circle" width="140" height="140">
         <h2>Jano Olmos</h2>
         <p>Jano es un artista emergente de la zona de cosquin. <br>
         Tiene un albun llamado SI PREGUNTAS POR MI <br> donde refleja un verdadero sentimiento de instrospeccion</p>
-        <p><a class="btn btn-secondary" href="#">Mas Informacion &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="https://www.youtube.com/@janoo10">Mas Informacion &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4">
+      <div class="col-lg-4" class="fade-in">
         <img src="BEBY FUNES - MIENTEME [TEMA].jpeg.jpeg" alt="Foto Perfil" class="bd-placeholder-img rounded-circle" width="140" height="140">
         <h2>Beby Funes</h2>
         <p>Beby funes es un artista directo desde Cosquin. <br>
         Su ultimo Lanzamiento fue con Luz Eluney Titulado <br>
         Pa' Sanar Disponible en todas las plataformas digitales <br></p>
-        <p><a class="btn btn-secondary" href="https://youtu.be/KvVWRTM4b8Y">Mas Informacion &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="https://www.youtube.com/@Bebyfuness/featured" target="_blank">Mas Informacion &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4">
+      <div class="col-lg-4" class="fade-in">
         <img src="LOORENCIO.jpeg" alt="Foto Perfil" class="bd-placeholder-img rounded-circle" width="140" height="140">
 
         <h2>Looren GC</h2>
@@ -176,7 +185,7 @@ s
           muy bien su pura escencia reflejando su vida.
           Su ultimo Lanzamiento Fue Razones.. <br>
           Disponible en todas las plataformas digitales. </p>
-        <p><a class="btn btn-secondary" href="#">Mas informacion &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="https://www.youtube.com/channel/UC2deQJBfrKjnNrpWZ9Ud-Xw" target="_blank">Mas informacion &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
 
@@ -185,7 +194,7 @@ s
 
     <hr class="featurette-divider">
 
-    <div class="row featurette">
+    <div class="row featurette" class="fade-in">
       <div class="col-md-7">
         <h2 class="featurette-heading">That's My Style</h2>
         <p class="lead">Este tema habla de la realiad de cada uno como de chico aprendi a que todos 
