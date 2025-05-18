@@ -99,24 +99,25 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video1">
-          <source src="BRUNO - THATS MY STYLE.mp4" type="video/mp4">
+        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video1" style="object-fit: cover;">
+          <source src="Videos/BRUNO - HAY QUE BAILAR.mp4" type="video/mp4">
           tu navegador no soporta el video.
         </video>
 
         <div class="container">
           <div class="carousel-caption text-start">
+            <h1>Hay que bailar</h1>
+            <p>Este fue mi ultimo lanzamiento con 1.1k de visitas en mi primer canal personal <br>
+            Mi mensaje es mostrar que despues de todo lo malo siempre hay que bailarla <br>
+          pelearla y lucharla a la vida y hacerse cargo de sus responsabilidades</p>
+            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/G0BzSlgZVLs?si=rY-Gup8iv9FeAfro" target="_blank">Video Completo</a></p>
             
-            <h1>That's my style</h1>
-            <p>Este fue mi primer lanzamiento como artista a los 14 años.<br>
-            Comenzando aprendemos muchas cosas Mas que todo de la gente que nos rodea y nos enseña de la forma mas pura</p>
-            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/O8HLTVuwUhQ" target="_blank">Video Completo</a></p>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video2">
-          <source src="BRUNO - NO QUIERO CASH.mp4" type="video/mp4">
+        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video2" style="object-fit: cover;">
+          <source src="Videos/BRUNO - NO QUIERO CASH.mp4" type="video/mp4">
           tu navegador no soporta el video.
         </video>
 
@@ -132,19 +133,17 @@
         </div>
       </div>
       <div class="carousel-item">
-        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video3">
-          <source src="BRUNO - HAY QUE BAILAR.mp4" type="video/mp4">
+        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id= "video3" style="object-fit: cover;">
+          <source src="Videos/BRUNO - THATS MY STYLE.mp4" type="video/mp4">
           tu navegador no soporta el video.
         </video>
-s
+
         <div class="container">
           <div class="carousel-caption text-end">
-            <h1>Hay que bailar</h1>
-            <p>Este fue mi ultimo lanzamiento con 1.1k de visitas en mi primer canal personal <br>
-            Mi mensaje es mostrar que despues de todo lo malo siempre hay que bailarla <br>
-          pelearla y lucharla a la vida y hacerse cargo de sus responsabilidades</p>
-            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/G0BzSlgZVLs?si=rY-Gup8iv9FeAfro" target="_blank">Video Completo</a></p>
-          </div>
+            <h1>That's my style</h1>
+            <p>Este fue mi primer lanzamiento como artista a los 14 años. Hoy cuenta con 1.7k de visitas<br>
+            Comenzando aprendemos muchas cosas, Mas que todo de la gente que nos rodea y nos enseña de la forma mas pura</p>
+            <p><a class="btn btn-lg btn-primary" href="https://youtu.be/O8HLTVuwUhQ" target="_blank">Video Completo</a></p>
         </div>
       </div>
     </div>
@@ -263,7 +262,7 @@ s
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      const carousel = document.querySelector('#carouselVideos');
+      const carousel = document.querySelector('#myCarousel');
       const videos = carousel.querySelectorAll('video');
 
       const bsCarousel = new bootstrap.Carousel(carousel);
