@@ -99,7 +99,7 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video1" style="object-fit: cover"  data-src="Videos/BRUNO_HAY_QUE_BAILAR.mp4"> 
+        <video class="d-block w-100 h-100" muted playsinline preload="none" id = "video1" style="object-fit: cover;"data-src="videos/BRUNO_HAY_QUE_BAILAR.mp4">
         </video>
 
         <div class="container">
@@ -114,7 +114,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id = "video2" style="object-fit: cover;" data-src="Videos/BRUNO_NO_QUIERO_CASH.mp4">
+        <video class="d-block w-100 h-100" muted playsinline preload="none" id = "video2" style="object-fit: cover;" data-src="Videos/BRUNO_NO_QUIERO_CASH.mp4">
         </video>
 
         <div class="container">
@@ -129,7 +129,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <video class="d-block w-100 h-100" muted playsinline preload="metadata" id= "video3" style="object-fit: cover;" data-src="Videos/BRUNO_THATS_MY_STYLE.mp4">
+        <video class="d-block w-100 h-100" muted playsinline preload="none" id= "video3" style="object-fit: cover;" data-src="Videos/BRUNO_THATS_MY_STYLE.mp4">
         </video>
 
         <div class="container">
@@ -281,6 +281,7 @@
       window.addEventListener('DOMContentLoaded', () => {
         const firstVideo = videos[0];
         loadVideo(firstVideo);
+        firstVideo.load();  // <- Esto es importante
         firstVideo.play();
       });
     </script>
