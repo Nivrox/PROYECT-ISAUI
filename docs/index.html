@@ -277,12 +277,13 @@
         });
       });
 
-      // Cargar y reproducir el primer video al iniciar
       window.addEventListener('DOMContentLoaded', () => {
         const firstVideo = videos[0];
         loadVideo(firstVideo);
-        firstVideo.load();  // <- Esto es importante
-        firstVideo.play();
+        firstVideo.load();  // fuerza carga
+        firstVideo.play().catch((e) => {
+          console.warn('No se pudo reproducir el video:', e);
+        });
       });
     </script>
 
