@@ -4,9 +4,9 @@ import mysql.connector
 
 # Datos de conexión a la base de datos (reemplázalos con tus datos)
 mydb = mysql.connector.connect(
-        host="localhost",
+        host="localhost", #PONER SU PROPIO HOST
         user="root", #PONER SU PROPIO USUARIO
-        password="bru455no", #PONER SU PROPIA CLAVE
+        password="", #PONER SU PROPIA CLAVE
         database="isaui")
 mycursor = mydb.cursor()
 
