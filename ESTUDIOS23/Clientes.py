@@ -39,18 +39,18 @@ class Ppersonas:
             print("Error al insertar datos: {}".format(error))
             return False
         
-    def modificarPersonas(nombres, apellidos, sexo, dni, id):
+    def modificarPersonas(nombres, apellidos, sexo, dni_nuevo, dni_viejo):
         
         try:
             cone= CConexion.ConexionBd()
             cursor = cone.cursor()
-            sql = "UPDATE Personas SET Nombres = %s, Apellidos = %s, Sexo = %s, dni = %s, WHERE id = %s;"
+            sql = "UPDATE Personas SET Nombres = %s, Apellidos = %s, Sexo = %s, dni = %s WHERE dni = %s;"
 
             #La variable valores tiene que ser una tupla 
             #Como minima expresion es: (valor,) La coma hace que sea una tupla
             #Las tuplas son listas inmutables (No se pueden modificar)
 
-            valores = (nombres, apellidos, sexo, dni, id)
+            valores = (nombres, apellidos, sexo, dni_nuevo, dni_viejo)
             cursor.execute(sql,valores)
             cone.commit()
             print (cursor.rowcount, "Datos Modificados Correctamente")

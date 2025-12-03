@@ -19,6 +19,8 @@ class FormularioClientes:
             labeldni= Label(groupBox, text="Dni:", width=13, font=("Arial", 12))
             labeldni.grid(row=0, column=0, sticky="w")
 
+            
+
             base.mainloop()
         except ValueError as e: 
             print("Error al crear el formulario: {}".format(e))

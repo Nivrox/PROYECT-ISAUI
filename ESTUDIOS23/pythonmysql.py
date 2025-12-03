@@ -21,7 +21,9 @@ class FormularioClientes:
     
     global tree
     tree = None
-    
+
+    dni_original = None 
+
     global groupBox
     groupBox = None
 
@@ -41,12 +43,14 @@ def Formulario():
         base = Tk()        
         base.geometry("1250x300")
         base.title("Formulario de Clientes")
-                
+        base.grid_columnconfigure(0, weight=0)      
+        base.grid_columnconfigure(1, weight=1)
+        base.grid_rowconfigure(0, weight=1)  
 
         groupBox = LabelFrame(base, text="Datos de Personal", padx=5, pady=5)
-        groupBox.grid(row=0, column=0, padx=10, pady=10)
+        groupBox.grid(row=0, column=0, padx=10, pady=10, sticky = "nsw")
 
-        LabelId = Label(groupBox, text="Dni:", width= 13, font=("Arial", 12)).grid(row=0, column=0)
+        LabelDni = Label(groupBox, text="Dni:", width= 13, font=("Arial", 12)).grid(row=0, column=0)
         texboxdni = Entry(groupBox, width=20, font=("Arial", 12))
         texboxdni.grid(row=0, column=1)
 
@@ -70,8 +74,23 @@ def Formulario():
 
         botonEliminar = Button(groupBox, text="Eliminar", width=10, command=eliminarRegistros).grid(row = 4, column=2, pady=10)
 
-        groupBox = LabelFrame (base, text="Lista de Datos", padx=5, pady=5)
-        groupBox.grid(row=0, column=1, padx=5, pady=5)
+        groupBox = LabelFrame (base, text="Lista de Datos", padx=5, pady=30)
+        groupBox.grid(row=0, column=1, padx=5, pady=10)
+
+        scroll_y = ttk.Scrollbar(groupBox, orient="vertical")
+
+        
+        
+        tree = ttk.Treeview(
+            groupBox, 
+            columns=("Nombres", "Apellidos", "Sexo", "Dni"), 
+            show='headings', 
+            height=5,
+            yscrollcommand=scroll_y.set
+        )
+        scroll_y.config(command=tree.yview)
+
+
 
         tree = ttk.Treeview(groupBox, columns=("Nombres", "Apellidos", "Sexo", "Dni"), show='headings', height=5)
         tree.column("#1", anchor=CENTER)
@@ -83,14 +102,15 @@ def Formulario():
         tree.column("#4", anchor=CENTER)
         tree.heading("#4", text="Dni")
 
-        #agregar los datos a la tabla
+        #agregar los datos a la tabla por cada fila dentro del treeview
         for row in Ppersonas.mostrarPersonas():
             tree.insert("","end",values=row)
 
         #Ejecutar la funcion de seleccion de registro y mostrar los datos en los campos de texto
         tree.bind("<<TreeviewSelect>>", seleccionarRegistro)
 
-        tree.pack()
+        scroll_y.pack(side="right", fill="y")
+        tree.pack(side="left", fill="both", expand=True)
 
         base.mainloop()
     except ValueError as e:
@@ -98,27 +118,31 @@ def Formulario():
 
 def guardarRegistros():
     global texboxdni, texboxNombre, texboxApellido, seleccionSexo, groupBox
-    try:
-            #Verificar si estan inicializados los campos
-        if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
-            print ("Llena Todos los Campos")
-            return
+        #Verificar si estan inicializados los campos
+    if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
+        print ("Llena Todos los Campos")
+        return
         
-        nombres = texboxNombre.get()
-        apellidos = texboxApellido.get()
-        sexo = seleccionSexo.get()
-        dni = texboxdni.get()
-        Ppersonas.ingresarPersonas(nombres, apellidos, sexo, dni)
-        messagebox.showinfo("Exito", "Datos guardados correctamente")
+    nombres = texboxNombre.get()
+    apellidos = texboxApellido.get()
+    sexo = seleccionSexo.get()
+    dni = texboxdni.get()
 
-        #limpiamos los campos de texto 
-        actualizarTreeview()
-        texboxNombre.delete(0, END)
-        texboxApellido.delete(0, END)
-        texboxdni.delete(0, END)
+    if not validar_dni(dni):
+        return
+    if not validar_nombre(nombres):
+        return
+    if not validar_apellido(apellidos):
+        return
+    Ppersonas.ingresarPersonas(nombres, apellidos, sexo, dni)
+    messagebox.showinfo("Exito", "Datos guardados correctamente")
 
-    except Exception as e:
-        messagebox.showerror("Error", f"Ha ocurrido un error al guardar los registros: {e}")
+    #limpiamos los campos de texto 
+    actualizarTreeview()
+    texboxNombre.delete(0, END)
+    texboxApellido.delete(0, END)
+    texboxdni.delete(0, END)
+
 
 def actualizarTreeview():
     global tree 
@@ -133,9 +157,10 @@ def actualizarTreeview():
         print("Error, Ha ocurrido un error al actualizar la lista:{}".format(e))
 
 def seleccionarRegistro(event):
+    global texboxNombre, texboxApellido, texboxdni, seleccionSexo, dni_original, tree
     try:
         seleccion = tree.focus()
-
+        
         if seleccion:
             #obtener los valores de las columnas del item seleccionado
             values = tree.item(seleccion) ['values']
@@ -149,56 +174,114 @@ def seleccionarRegistro(event):
             texboxdni.insert(0, values[3])
             seleccionSexo.set(values[2])
 
+            dni_original = values[3]
     except ValueError as error:
         print ("Error al seleccionar el registro: {}".format(error))
 
 def modificarRegistros():
+
     global texboxNombre, texboxApellido, seleccionSexo, texboxdni, groupBox
+       #Verificar si estan inicializados los campos
+    if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
+            print ("Llena Todos los Campos")
+            return
+        
+    nombres = texboxNombre.get()
+    apellidos = texboxApellido.get()
+    sexo = seleccionSexo.get()
+    dni_nuevo = texboxdni.get()
+
+    if not dni_nuevo.isdigit():
+            messagebox.showwarning("Error", "El DNI debe ser numérico.")
+            return
+
+    if len(dni_nuevo) > 9:
+            messagebox.showwarning("Error", "El DNI no puede superar los 9 dígitos.")
+            return
+
+    if not validar_nombre(nombres):
+            return
+    if not validar_apellido(apellidos):
+            return
+        
+
+    Ppersonas.modificarPersonas(nombres,apellidos,sexo,dni_nuevo, dni_original)
+    messagebox.showinfo("Exito", "Datos Modificados correctamente")
+
+        #limpiamos los campos de texto 
+    actualizarTreeview()
+    texboxNombre.delete(0, END)
+    texboxApellido.delete(0, END)
+    texboxdni.delete(0, END)
     
-    try:
-            #Verificar si estan inicializados los campos
-        if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
-            print ("Llena Todos los Campos")
-            return
-        
-        nombres = texboxNombre.get()
-        apellidos = texboxApellido.get()
-        sexo = seleccionSexo.get()
-        dni = texboxdni.get()
-        Ppersonas.modificarPersonas(nombres,apellidos,sexo,dni)
-        messagebox.showinfo("Exito", "Datos Modificados correctamente")
-
-        #limpiamos los campos de texto 
-        actualizarTreeview()
-        texboxNombre.delete(0, END)
-        texboxApellido.delete(0, END)
-        texboxdni.delete(0, END)
-
-    except Exception as e:
-        messagebox.showerror("Error", f"Ha ocurrido un error al modificar los registros: {e}")
-
 def eliminarRegistros():
-    global texboxNombre, texboxApellido, seleccionSexo, texboxdni, groupBox
+    global texboxdni
 
-    try:
-        #Verificar si estan inicializados los campos
-        if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
-            print ("Llena Todos los Campos")
-            return
+     #Verificar si estan inicializados los campos
+    if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
+        print ("Llena Todos los Campos")
+        return
         
-        nombres = texboxNombre.get()
-        apellidos = texboxApellido.get()
-        sexo = seleccionSexo.get()
-        dni = texboxdni.get()
-        Ppersonas.eliminarPersonas(nombres,apellidos,sexo,dni)
-        messagebox.showinfo("Exito", "Datos Eliminados correctamente")
+    dni = texboxdni.get()
+    #Validaciones de digitos de Dni
+    if not dni:
+        messagebox.showwarning("Error", "Debe seleccionar un registro para eliminar.")
+        return
 
-        #limpiamos los campos de texto 
-        actualizarTreeview()
-        texboxNombre.delete(0, END)
-        texboxApellido.delete(0, END)
-        texboxdni.delete(0, END)
+    if not dni.isdigit():
+        messagebox.showwarning("Error", "El DNI debe ser numérico.")
+        return
+        
+    Ppersonas.eliminarPersonas(dni)
+    messagebox.showinfo("Exito", "Datos Eliminados correctamente")
 
-    except Exception as e:
-        messagebox.showerror("Error", f"Ha ocurrido un error al modificar los registros: {e}")
+    #limpiamos los campos de texto 
+    actualizarTreeview()
+    texboxNombre.delete(0, END)
+    texboxApellido.delete(0, END)
+    texboxdni.delete(0, END)
+
+def validar_apellido(apellido):
+    import re
+
+    if not re.match(r"^[A-Za-zÁÉÍÓÚáéíóúñÑ ]*$", apellido):
+        messagebox.showwarning("Error", "El campo Apellido solo acepta letras y espacios.")
+        return False
+
+    if len(apellido) > 15:
+        messagebox.showwarning("Error", "El campo Apellido no puede superar los 15 caracteres.")
+        return False
+
+    return True
+
+def validar_nombre(nombre):
+    import re
+
+    if not re.match(r"^[A-Za-zÁÉÍÓÚáéíóúñÑ ]*$", nombre):
+        messagebox.showwarning("Error", "El campo Nombres solo acepta letras y espacios.")
+        return False
+
+    if len(nombre) > 15:
+        messagebox.showwarning("Error", "El campo Nombres no puede superar los 15 caracteres.")
+        return False
+
+    return True
+
+def validar_dni(dni):
+    if not dni.isdigit():
+        messagebox.showwarning("Error", "El DNI solo puede contener números.")
+        return False
+
+    if len(dni) > 9:
+        messagebox.showwarning("Error", "El DNI no puede superar los 9 dígitos.")
+        return False
+
+    # Verificar DNI repetido en la tabla actual
+    for item in tree.get_children():
+        valores = tree.item(item)["values"]
+        if str(valores[3]) == str(dni):
+            messagebox.showwarning("Error", "El DNI ya existe en la lista.")
+            return False
+
+    return True
 Formulario()
