@@ -80,19 +80,11 @@ def Formulario():
         scroll_y = ttk.Scrollbar(groupBox, orient="vertical")
 
         
-        
-        tree = ttk.Treeview(
-            groupBox, 
-            columns=("Nombres", "Apellidos", "Sexo", "Dni"), 
-            show='headings', 
-            height=5,
-            yscrollcommand=scroll_y.set
-        )
-        scroll_y.config(command=tree.yview)
 
 
 
-        tree = ttk.Treeview(groupBox, columns=("Nombres", "Apellidos", "Sexo", "Dni"), show='headings', height=5)
+        tree = ttk.Treeview(groupBox, columns=("Nombres", "Apellidos", "Sexo", "Dni"), show='headings', height=5,
+        yscrollcommand=scroll_y.set)
         tree.column("#1", anchor=CENTER)
         tree.heading("#1", text="Nombres")
         tree.column("#2", anchor=CENTER)
@@ -101,12 +93,12 @@ def Formulario():
         tree.heading("#3", text="Sexo")
         tree.column("#4", anchor=CENTER)
         tree.heading("#4", text="Dni")
-
+        scroll_y.config(command=tree.yview)
         #agregar los datos a la tabla por cada fila dentro del treeview
         for row in Ppersonas.mostrarPersonas():
             tree.insert("","end",values=row)
 
-        #Ejecutar la funcion de seleccion de registro y mostrar los datos en los campos de texto
+        #Esto es para ejecutar la funcion de seleccion de registro y mostrar los datos en los campos de texto
         tree.bind("<<TreeviewSelect>>", seleccionarRegistro)
 
         scroll_y.pack(side="right", fill="y")
@@ -118,7 +110,7 @@ def Formulario():
 
 def guardarRegistros():
     global texboxdni, texboxNombre, texboxApellido, seleccionSexo, groupBox
-        #Verificar si estan inicializados los campos
+        #Esto sirve para verificar si estan llenos los campos
     if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
         print ("Llena Todos los Campos")
         return
@@ -137,7 +129,7 @@ def guardarRegistros():
     Ppersonas.ingresarPersonas(nombres, apellidos, sexo, dni)
     messagebox.showinfo("Exito", "Datos guardados correctamente")
 
-    #limpiamos los campos de texto 
+    #aca actualizamos el treeview luego de guardar los registros
     actualizarTreeview()
     texboxNombre.delete(0, END)
     texboxApellido.delete(0, END)
@@ -147,11 +139,11 @@ def guardarRegistros():
 def actualizarTreeview():
     global tree 
     try:
-        #borrar todos los elementos actuales del treeview
+        #aca borra los elementos dentro del treeview
         tree.delete(*tree.get_children())
-        #obtener los nuevos datos que deseamos mostrar 
+        #y obtienee los nuevos mediante la clase mostrarpersonas
         datos = Ppersonas.mostrarPersonas()
-        for row in datos:
+        for row in datos: #aca los acomoda por cada fila cada elemento dentro del treeview
             tree.insert("","end",values=row)
     except ValueError as e:
         print("Error, Ha ocurrido un error al actualizar la lista:{}".format(e))
@@ -162,10 +154,10 @@ def seleccionarRegistro(event):
         seleccion = tree.focus()
         
         if seleccion:
-            #obtener los valores de las columnas del item seleccionado
+            #Aca obtiene los valores de la fila seleccionada
             values = tree.item(seleccion) ['values']
 
-            #Establecer los valores en los widgets de entrada
+            #Establece los valores dentro de cada textbox en los label correspondientes
             texboxNombre.delete(0, END)
             texboxNombre.insert(0, values[0])
             texboxApellido.delete(0, END)
@@ -181,7 +173,7 @@ def seleccionarRegistro(event):
 def modificarRegistros():
 
     global texboxNombre, texboxApellido, seleccionSexo, texboxdni, groupBox
-       #Verificar si estan inicializados los campos
+       #Aca verifica si estan llenos los campos
     if texboxdni is None or texboxNombre is None or texboxApellido is None or seleccionSexo is None:
             print ("Llena Todos los Campos")
             return
@@ -208,7 +200,7 @@ def modificarRegistros():
     Ppersonas.modificarPersonas(nombres,apellidos,sexo,dni_nuevo, dni_original)
     messagebox.showinfo("Exito", "Datos Modificados correctamente")
 
-        #limpiamos los campos de texto 
+        #Aca limpiamos los campos de texto de nuevo y actualizamos el treeview  luego de modificar 
     actualizarTreeview()
     texboxNombre.delete(0, END)
     texboxApellido.delete(0, END)
@@ -235,7 +227,7 @@ def eliminarRegistros():
     Ppersonas.eliminarPersonas(dni)
     messagebox.showinfo("Exito", "Datos Eliminados correctamente")
 
-    #limpiamos los campos de texto 
+    #Aca limpiamos los campos de texto de nuevo y actualizamos el treeview luego de eliminar
     actualizarTreeview()
     texboxNombre.delete(0, END)
     texboxApellido.delete(0, END)
